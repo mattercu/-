@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ôn tập Lịch sử – Giữa kỳ I</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f4fb;--card:#fff;--tx:#1d2140;--mu:#6b7090;--pr:#5b5bd6;--ok:#16a34a;--okb:#dcfce7;--no:#dc2626;--nob:#fee2e2;--bd:#e3e5f3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--card:#1c1f3d;--tx:#eceefc;--mu:#9a9fc8;--pr:#8b8bff;--ok:#4ade80;--okb:#14351f;--no:#f87171;--nob:#3d1a1f;--bd:#2c3060}}
+:root[data-theme="dark"]{--bg:#12142a;--card:#1c1f3d;--tx:#eceefc;--mu:#9a9fc8;--pr:#8b8bff;--ok:#4ade80;--okb:#14351f;--no:#f87171;--nob:#3d1a1f;--bd:#2c3060}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(60,60,140,.06)}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.1rem;margin:1.2em 0 .4em;color:var(--pr)}
+.mu{color:var(--mu);font-size:.9rem}
+button,input{font:inherit}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:12px;padding:12px 20px;font-weight:600;cursor:pointer}
+.btn.g{background:transparent;color:var(--pr);border:1px solid var(--pr)}
+input[type=password]{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);margin:10px 0}
+#login{min-height:80vh;display:flex;align-items:center;justify-content:center}
+#login .card{width:100%;max-width:380px;text-align:center}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--bd);padding:10px 16px}
+.bar>div{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.pg{flex:1;height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.pg i{display:block;height:100%;width:0;background:var(--pr);transition:width .3s}
+.q b.n{color:var(--pr)}
+.o{display:block;width:100%;text-align:left;margin:8px 0 0;padding:11px 14px;border:1.5px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);cursor:pointer}
+.o.s{border-color:var(--pr);background:color-mix(in srgb,var(--pr) 14%,transparent)}
+.o.ok{border-color:var(--ok);background:var(--okb)}.o.no{border-color:var(--no);background:var(--nob)}
+.o:disabled{cursor:default;opacity:1}
+.tf{display:flex;gap:8px;align-items:flex-start;margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd)}
+.tf p{flex:1;margin:0}.tf .b{display:flex;gap:6px}.tf .o{margin:0;width:auto;padding:6px 12px}
+.ps{background:var(--bg);border-left:4px solid var(--pr);padding:10px 12px;border-radius:8px;font-size:.92rem;margin:8px 0}
+#res{text-align:center}#res .sc{font-size:3rem;font-weight:800;color:var(--pr)}
+.hid{display:none}
+</style></head><body>
+<div id="login"><div class="card">
+<div style="font-size:2.4rem">📜</div><h1>Ôn tập Lịch sử</h1>
+<div class="mu">Đề cương giữa kỳ I · 2026–2027</div>
+<input id="pw" type="password" placeholder="Nhập mật khẩu" autocomplete="off">
+<div id="err" class="mu" style="color:var(--no);min-height:1.4em"></div>
+<button class="btn" id="go" style="width:100%">Vào làm bài</button>
+</div></div>
+
+<div id="app" class="hid">
+<div class="bar"><div><b id="cnt">0</b><span class="mu">/<span id="tot"></span></span><div class="pg"><i id="pgb"></i></div><button class="btn g" id="sub" style="padding:6px 14px">Nộp bài</button></div></div>
+<div class="w" id="qs"></div>
+<div class="w"><div id="res" class="card hid"></div><div style="text-align:center;margin:10px 0 40px"><button class="btn" id="sub2">Nộp bài & chấm điểm</button> <button class="btn g" id="rst">Làm lại</button></div></div>
+</div>
+
+<script>
+// ĐÁP ÁN: chỉnh ở đây nếu cần. MCQ: chỉ số đáp án 0-3 (A-D). TF: true=Đúng
+const MC=[
+["Thắng lợi của nhân dân Việt Nam trong Cách mạng tháng Tám đã có tác động như thế nào đến phong trào cách mạng thế giới?",["Làm thất bại chiến lược toàn cầu của Mỹ.","Cổ vũ phong trào cách mạng trên thế giới.","Góp phần cho sự ra đời của hơn 100 nước.","Xây dựng vững chắc thành trì cách mạng."],1],
+["“Lấy phát triển kinh tế làm trọng điểm” được xem là nội dung chiến lược chủ yếu của các nước trong thời kỳ",["Chiến tranh thế giới thứ hai kết thúc.","sau khi cuộc Chiến tranh lạnh kết thúc.","chủ nghĩa xã hội thành hệ thống thế giới.","ngay sau khi Chiến tranh lạnh bắt đầu."],1],
+["Hội nghị I-an-ta (2-1945) đã thông qua quyết định nào?",["Phân chia nước Đức thành bốn khu vực chiếm đóng của Đồng minh.","Phân công quân đội Đồng minh giải giáp quân Nhật ở Đông Dương.","Thành lập tổ chức Hội quốc liên để duy trì hòa bình, an ninh thế giới.","Phân chia phạm vi ảnh hưởng ở châu Âu, châu Á giữa các nước Đồng minh."],3],
+["Nội dung nào sau đây là biểu hiện của xu thế đa cực?",["Các trung tâm quyền lực vươn lên, khẳng định sức mạnh về kinh tế, quân sự, chính trị đối với thế giới.","Các nước tăng cường chạy đua về kinh tế và quân sự, hình thành các liên minh xuyên lục địa.","Sự lớn mạnh của Trung Quốc trước cải cách, mở cửa, đe doạ đến vị trí số 1 của Mỹ.","Các nước trong khối NATO liên kết với nhau tạo ra sức mạnh quân sự vượt trội."],0],
+["Nhận xét nào là đúng về việc thỏa thuận đóng quân và phân chia phạm vi ảnh hưởng giữa ba cường quốc trong Hội nghị I-an-ta (2-1945)?",["Thực hiện việc tiêu diệt tận gốc chủ nghĩa thực dân.","Thực chất là phân chia quyền lợi giữa Mỹ và Liên Xô.","Nhanh chóng triệt tiêu sức mạnh của các nước tư bản.","Tạo điều kiện để tái vũ trang cho Đức chống Liên Xô."],1],
+["Năm 1945, bản Hiến chương Liên hợp quốc được thông qua tại",["hội nghị Tam cường I-an-ta.","hội nghị Xan Phran-xi-xcô.","hội nghị Bàn Môn Điếm.","hội nghị Véc xai - Oasington."],1],
+["“Xu thế đối thoại, hợp tác trong quan hệ quốc tế” được xem là nội dung chiến lược chủ yếu của các nước trong thời kỳ",["sau khi cuộc Chiến tranh lạnh kết thúc.","chủ nghĩa xã hội thành hệ thống thế giới.","ngay sau khi Chiến tranh lạnh bắt đầu.","Chiến tranh thế giới thứ hai kết thúc."],0],
+["Đâu là một trong những vai trò mục tiêu của tổ chức Liên hợp quốc?",["Cân bằng quyền lực các nước.","Xoá bỏ chế độ thực dân kiểu cũ.","Duy trì hòa bình, an ninh thế giới.","Thực hiện quyền tự do hàng hải."],2],
+["Nhận định nào về vị trí, vai trò của Liên Hợp quốc trên trường quốc tế là KHÔNG đúng?",["Là diễn đàn quốc tế lớn nhất, vừa hợp tác vừa đấu tranh.","Thúc đẩy mối quan hệ hợp tác hữu nghị giữa các dân tộc.","Là tổ chức liên kết chính trị - kinh tế lớn nhất hành tinh.","Giúp đỡ các quốc gia dân tộc về y tế, văn hóa, giáo dục."],2],
+["Bài học kinh nghiệm nào sau đây được Đảng Cộng sản Đông Dương rút ra về tập hợp, tổ chức lực lượng, phân hóa và cô lập kẻ thù trong Cách mạng tháng Tám năm 1945?",["Thành lập mặt trận thống nhất rộng rãi trên cơ sở liên minh công - nông.","Giải quyết tốt những yêu cầu và nguyện vọng trước mắt của quần chúng.","Tập trung tất cả các lực lượng để tấn công nhiều kẻ thù cùng một lúc.","Triệt để tận dụng những điều kiện khách quan và chủ quan thuận lợi."],3],
+["Hiệp hội các quốc gia Đông Nam Á (ASEAN) ra đời trong hoàn cảnh nào sau đây?",["Thế giới và khu vực đang có những chuyển biến quan trọng.","Tất cả các nước khu vực Đông Nam Á đều giành được độc lập.","Chiến tranh lạnh kết thúc, các dân tộc đang hòa hợp, hòa giải.","Xu thế hòa hoãn Đông - Tây trở thành chủ đạo trên thế giới."],0],
+["Một trong những mục đích thành lập của tổ chức ASEAN là",["đưa Đông Nam Á trở thành số 1 thế giới.","xây dựng khối tư bản chủ nghĩa phát triển.","thúc đẩy hòa bình - ổn định của khu vực.","thúc đẩy sự hợp tác toàn diện, thống nhất."],2],
+["Xu thế chủ đạo trong quan hệ giữa các cường quốc sau Chiến tranh lạnh là",["Toàn cầu hóa.","tôn trọng vai trò, nhiệm vụ của Liên hợp quốc.","Đối đầu giữa các nước lớn để phát triển kinh tế.","hòa bình, không xung đột nhưng chạy đua vũ trang."],0],
+["Một trong những bài học được rút ra từ Cách mạng tháng Tám năm 1945 có ý nghĩa quan trọng trong xây dựng và phát triển đất nước hiện nay là",["tận dụng, phát huy truyền thống đoàn kết của nhân dân ba nước Đông Dương.","kết hợp xây dựng lực lượng vũ trang với sức mạnh của lực lượng quốc tế.","cần dự đoán chính xác và nhanh chóng nắm bắt thời cơ để giành thắng lợi.","linh hoạt, quyết đoán trong việc kết hợp các hình thức đấu tranh ngoại giao."],2],
+["Một trong những nguyên nhân dẫn đến sự đổ của trật tự hai cực I-an-ta là",["Sự vươn lên mạnh mẽ của Tây Âu và Nhật Bản.","Do những mâu thuẫn trong trật tự hai cực I-an-ta.","Mâu thuẫn giữa các nước về vấn đề thuộc địa.","Sự cạnh tranh công nghiệp vũ trụ giữa Liên Xô và Mĩ."],0],
+["Quốc gia nào là thành viên thứ 10 của ASEAN?",["Việt Nam.","Thái Lan.","Mi-an-ma.","Cam-pu-chia."],3],
+["Ý tưởng xây dựng cộng đồng ASEAN xuất hiện từ",["ASEAN mới thành lập (1967).","khi Chiến tranh lạnh kết thúc.","khủng hoảng năng lượng (1973).","khủng hoảng tài chính (1997)."],0],
+["Trật tự hai cực I-an-ta sụp đổ đã có tác động nào sau đây đến tình hình thế giới?",["tạo điều kiện thuận lợi để Mĩ và Liên Xô phát triển mạnh kinh tế, xã hội","mở ra thời kì Mĩ vươn lên xác lập được trật tự thế giới đơn cực, bá chủ thế giới","mở ra chiều hướng và điều kiện giải quyết hòa bình các tranh chấp, xung đột quốc tế","tạo điều kiện thuận lợi để Liên Xô và các nước Đông Âu vươn lên phát triển kinh tế."],2],
+["Mục tiêu xây dựng cộng đồng ASEAN là",["biến ASEAN thành tổ chức hợp tác mạnh nhất.","các nước đoàn kết giúp đỡ nhau khi bị xâm lược.","củng cố khối đoàn kết của ASEAN trên vấn đề quân sự.","đưa ASEAN trở thành một cộng đồng với ba trụ cột có mức độ liên kết sâu rộng hơn."],3],
+["Sự kiện nào dưới đây đánh dấu chế độ phong kiến ở Việt Nam đã sụp đổ hoàn toàn?",["Giành được chính quyền ở Hà Nội.","Vua Bảo Đại đã tuyên bố thoái vị.","Khởi nghĩa thắng lợi trong cả nước.","Hồ Chí Minh đọc Tuyên ngôn Độc lập."],1],
+["Hội nghị I-an-ta (2/1945) được tiến hành trong giai đoạn nào của Chiến tranh thế giới thứ hai?",["Vừa mới kết thúc.","Bùng nổ và lan rộng.","Giai đoạn sắp kết thúc.","Đang diễn ra ác liệt."],2],
+["Một trong những thách thức về kinh tế mà Cộng đồng ASEAN phải đối mặt trong quá trình xây dựng và phát triển là",["sự đa dạng về chế độ chính trị.","chênh lệch trình độ phát triển.","sự xung đột lãnh thổ, biên giới.","những vấn đề lịch sử sâu xa."],1],
+["Kế hoạch xây dựng Cộng đồng ASEAN được thông qua tại",["hội nghị cấp cao ASEAN lần thứ 37 (2020).","hội nghị cấp cao ASEAN lần thứ 14 (2009).","hội nghị cấp cao ASEAN lần thứ 10 (2004).","hội nghị cấp cao ASEAN lần thứ 11 (2005)."],2],
+["Một trong những địa phương giành được chính quyền sớm nhất trong Tổng khởi nghĩa tháng Tám năm 1945 là",["Thanh Hóa.","Quảng Nam.","Hưng Yên.","Cao Bằng."],1],
+["Một trong những địa phương giành chính quyền sau cùng trong Tổng khởi nghĩa tháng Tám năm 1945 là",["Cần Thơ.","Hà Tiên.","Móng Cái.","Lai Châu."],1],
+["Sự kiện nào dưới đây đánh dấu chế độ phong kiến ở Việt Nam đã sụp đổ hoàn toàn?",["Giành được chính quyền ở Hà Nội.","Vua Bảo Đại đã tuyên bố thoái vị.","Khởi nghĩa thắng lợi trong cả nước.","Hồ Chí Minh đọc Tuyên ngôn Độc lập."],1],
+["Một trong những nét độc đáo về nghệ thuật giành chính quyền trong cuộc Tổng khởi nghĩa tháng Tám năm 1945 ở Việt Nam là",["kết hợp lực lượng chính trị và lực lượng vũ trang.","quá trình giành chính quyền diễn ra nhanh chóng và ít đổ máu.","đồng loạt Tổng khởi nghĩa và tổng công kích trên toàn quốc.","tiến hành Tổng khởi nghĩa ngay khi quân Nhật đảo chính."],3],
+["Cuộc kháng chiến chống thực dân Pháp của nhân dân Việt Nam bùng nổ (1945) trong bối cảnh nào sau đây?",["Nhân dân Việt Nam đã trở thành người làm chủ đất nước.","Lực lượng vũ trang ba thứ quân có sự phát triển vượt bậc.","Phong trào giải phóng dân tộc ở các nước thuộc địa phát triển vượt bậc.","Chế độ xã hội mới, tiến bộ ở Việt Nam đã hoàn tất."],0],
+["Đảng, Chính phủ và Chủ tịch Hồ Chí Minh quyết định phát động cuộc kháng chiến toàn quốc chống thực dân Pháp (19/12/1946) là do",["Việt Nam đã tranh thủ được sự ủng hộ của Liên Xô và một số nước khác.","quá trình chuẩn bị lực lượng của Việt Nam cho cuộc kháng chiến đã hoàn tất.","Pháp rào riết chuẩn bị lực lượng quân sự để tiến hành xâm lược Việt Nam.","Việt Nam không thể tiếp tục sử dụng biện pháp hòa bình với Pháp được nữa."],3]
+];
+const TF=[
+{t:"Câu 1. Đọc đoạn tư liệu: Sau khi giành độc lập dân tộc, các quốc gia Đông Nam Á từng bước xây dựng và phát triển kinh tế, đưa tới nhu cầu hợp tác khu vực, thúc đẩy bởi xu thế khu vực hóa trên thế giới từ những năm 50, 60 của thế kỉ XX. Ngày 8-8-1967, ASEAN thành lập tại Băng Cốc (Thái Lan) với 5 nước sáng lập: In-đô-nê-xi-a, Ma-lai-xi-a, Phi-líp-pin, Xin-ga-po, Thái Lan. (SGK Lịch sử 12, tr.18-19)",
+ s:[["ASEAN là tên viết tắt bằng tiếng Anh của tổ chức Hiệp hội các quốc gia Đông Nam Á, được thành lập năm 1967 tại Thái Lan.",1],["ASEAN là tổ chức liên kết khu vực xuất hiện đầu tiên ở Đông Nam Á và trên thế giới.",1],["Một trong những nguyên nhân dẫn đến sự thành lập của ASEAN là nhằm đối phó với những thách thức về an ninh, chính trị từ bên ngoài.",1],["Tổ chức ASEAN được thành lập là kết quả tác động của nhiều nhân tố chủ quan và khách quan, đều có vai trò quyết định.",1]]},
+{t:"Câu 2. [Năm 1960] “Đại hội đồng Liên hợp quốc đã thông qua bản Tuyên ngôn về thủ tiêu hoàn toàn chủ nghĩa thực dân, trao trả độc lập cho các quốc gia và dân tộc thuộc địa. Đó là một sự kiện chính trị quan trọng... tuyên ngôn đã khẳng định các nước thực dân đã vi phạm nguyên tắc quan trọng nhất của luật pháp quốc tế, khẳng định rõ ràng cơ sở pháp lí của cuộc đấu tranh giành độc lập của các dân tộc bị áp bức.”",
+ s:[["Liên hợp quốc đã chính thức xoá bỏ hình thức phân biệt chủng tộc thông qua bản Tuyên ngôn về thủ tiêu hoàn toàn chủ nghĩa thực dân (năm 1960).",1],["Tuyên ngôn về thủ tiêu hoàn toàn chủ nghĩa thực dân (năm 1960) của Liên hợp quốc đã tạo ra cơ sở pháp lí cho các cuộc đấu tranh giành độc lập của nhân dân các nước Á, Phi, Mỹ Latinh.",1],["Tuyên ngôn về thủ tiêu hoàn toàn chủ nghĩa thực dân (năm 1960) đã thông qua các nguyên tắc hoạt động cơ chế hơn của trụ cột AEC, APSC, ASCC.",0],["Đoạn tư liệu đã thể hiện vai trò quan trọng nhất của tổ chức Liên hợp quốc là duy trì, hoà bình, an ninh thế giới.",1]]},
+{t:"Câu 3. Tháng 11-2015, cùng với việc tuyên bố thành lập Cộng đồng ASEAN, các nhà lãnh đạo ASEAN đã thông qua văn kiện Tầm nhìn Cộng đồng ASEAN 2025 nhằm thúc đẩy hợp tác, gắn kết trong Cộng đồng ASEAN. Tháng 11-2020, Hội nghị cấp cao ASEAN lần 37 ở Hà Nội đã thông qua văn kiện Tuyên bố Hà Nội về Tầm nhìn Cộng đồng ASEAN sau năm 2025, hướng tới thúc đẩy hợp tác và hội nhập ngày càng chặt chẽ hơn. Gần một thập kỉ sau khi thành lập, Cộng đồng ASEAN đã đạt được nhiều kết quả quan trọng. Tuy nhiên, trong bối cảnh mới, sự phát triển của Cộng đồng ASEAN đang đứng trước cả những thách thức và triển vọng lớn. (SGK Lịch sử 12, tr.27)",
+ s:[["Trong bối cảnh lịch sử mới, Cộng đồng ASEAN vừa đứng trước thời cơ, vừa phải đối mặt với những thách thức lớn.",1],["Văn kiện Tầm nhìn Cộng đồng ASEAN 2025 ra đời cùng với sự ra đời của Cộng đồng ASEAN.",1],["Tầm nhìn Cộng đồng ASEAN 2025 và Tầm nhìn sau năm 2025 đều là hai văn kiện có tác dụng thúc đẩy sự hợp tác toàn diện giữa các nước trong Cộng đồng ASEAN.",1],["Sự ra đời của Cộng đồng ASEAN và việc triển khai văn kiện Tầm nhìn Cộng đồng ASEAN 2025 chỉ tạo ra thời cơ cho Việt Nam trong quá trình phát triển.",0]]},
+{t:"Câu 4. Tháng 12/1989, trong cuộc gặp không chính thức tại đảo Man-ta, Tổng Bí thư Đảng Cộng sản Liên Xô M.Goóc-ba-chốp và Tổng thống Mĩ G.Bút-so đã chính thức cùng tuyên bố chấm dứt Chiến tranh lạnh. Chiến tranh lạnh chấm dứt đã mở ra chiều hướng và những điều kiện giải quyết hòa bình các vụ tranh chấp, xung đột đang diễn ra ở nhiều khu vực trên thế giới. Tuy vậy, tình trạng chiến tranh lạnh chỉ thực sự kết thúc sau khi Liên bang Xô viết tan rã, trật tự hai cực I-an-ta không còn nữa.",
+ s:[["Trật tự thế giới hai cực I-an-ta gắn liền với những diễn biến của cuộc Chiến tranh lạnh giữa hai cực Mỹ - Xô.",1],["Sau khi chiến tranh lạnh chấm dứt thế giới phát triển theo xu thế đối thoại, hợp tác trong quan hệ quốc tế.",1],["Một trong những nguyên nhân dẫn đến sự sụp đổ của Trật tự thế giới hai cực I-an-ta do Liên Xô lâm vào tình trạng khủng hoảng.",1],["Trật tự thế giới hai cực I-an-ta chấm dứt Việt Nam mới bắt đầu vào công cuộc đổi mới đất nước.",0]]},
+{t:"Câu 5. Sự vươn lên của khu vực châu Á - Thái Bình Dương nói chung và Đông Nam Á nói riêng là cơ sở để Cộng đồng ASEAN tiếp tục phát triển với mức độ liên kết ngày càng chặt chẽ và sâu rộng trên cả ba trụ cột. Cộng đồng ASEAN đang ngày càng hoàn thiện thể chế, chính sách, cơ chế hợp tác và đạt được nhiều thành tựu về chính trị, kinh tế, giáo dục, khoa học, kĩ thuật...; từng bước gắn kết các quốc gia Đông Nam Á để trở thành khu vực phát triển năng động, thịnh vượng mới của thế giới. Về đối ngoại, vị thế của ASEAN ngày càng được nâng cao trên trường quốc tế. ASEAN có quan hệ rộng mở với các đối tác bên ngoài, tham gia và đóng vai trò quan trọng tại nhiều diễn đàn lớn trên thế giới.",
+ s:[["Đoạn tư liệu đề cập đến triển vọng của Cộng đồng ASEAN.",1],["Cộng đồng ASEAN tiếp tục phát triển với mức độ liên kết ngày càng chặt chẽ và sâu rộng trên ba trụ cột chỉ dựa vào cơ sở là sự vươn lên của khu vực châu Á – Thái Bình Dương nói chung.",0],["Ba trụ cột hợp tác ngày nay của ASEAN là kinh tế, chính trị - an ninh, văn hóa - xã hội.",1],["Cộng đồng ASEAN ngày càng có vai trò quan trọng tại nhiều diễn đàn quốc tế, chi phối, khống chế nhiều đối tác bên ngoài.",1]]},
+{t:"Câu 6 (đề ghi Câu 7). Cho dữ liệu: 1967 – Hiệp hội các quốc gia Đông Nam Á (ASEAN) thành lập · 1976 – Hiệp ước Thân thiện và Hợp tác ở Đông Nam Á (TAC) được kí kết · 1995 – Việt Nam gia nhập ASEAN · 2007 – Hiến chương ASEAN được thông qua · 2015 – Tuyên bố thành lập Cộng đồng ASEAN.",
+ s:[["Đoạn dữ liệu đề cập đến quá trình hình thành và phát triển của ASEAN.",1],["ASEAN thành lập trong bối cảnh các quốc gia trong khu vực đã giành được độc lập.",1],["ASEAN đóng vai trò trọng yếu trong việc làm xói mòn Trật tự hai cực Ianta.",0],["Sự đa dạng của các nước thành viên về chế độ chính trị, tôn giáo, văn hoá là một thuận lợi cho sự phát triển của ASEAN.",0]]}
+];
+const $=s=>document.querySelector(s);let A={},done=false;
+function login(){if($('#pw').value==="loh"){$('#login').classList.add('hid');$('#app').classList.remove('hid');build()}else{$('#err').textContent="Sai mật khẩu, thử lại nhé!"}}
+$('#go').onclick=login;$('#pw').onkeydown=e=>{if(e.key==="Enter")login()};
+function build(){A={};done=false;$('#res').classList.add('hid');let h='<div class="card"><h1>Phần I. Trắc nghiệm</h1><div class="mu">Mỗi câu chọn 1 đáp án đúng.</div></div>';
+MC.forEach((q,i)=>{h+=`<div class="card q" id="m${i}"><b class="n">Câu ${i+1}.</b> ${q[0]}`+q[1].map((o,j)=>`<button class="o" data-k="m${i}" data-v="${j}">${"ABCD"[j]}. ${o}</button>`).join('')+`</div>`});
+h+='<div class="card"><h1>Phần II. Đúng – Sai</h1><div class="mu">Chọn Đúng hoặc Sai cho từng ý a, b, c, d.</div></div>';
+TF.forEach((q,i)=>{h+=`<div class="card q" id="t${i}"><div class="ps">${q.t}</div>`+q.s.map((s,j)=>`<div class="tf"><p><b>${"abcd"[j]}.</b> ${s[0]}</p><div class="b"><button class="o" data-k="t${i}${j}" data-v="1">Đúng</button><button class="o" data-k="t${i}${j}" data-v="0">Sai</button></div></div>`).join('')+`</div>`});
+$('#qs').innerHTML=h;$('#tot').textContent=MC.length+TF.length*4;upd();
+$('#qs').onclick=e=>{const b=e.target.closest('.o');if(!b||done)return;const k=b.dataset.k;A[k]=+b.dataset.v;document.querySelectorAll(`[data-k="${k}"]`).forEach(x=>x.classList.toggle('s',x===b));upd()}}
+function upd(){const n=Object.keys(A).length;$('#cnt').textContent=n;$('#pgb').style.width=n/(MC.length+TF.length*4)*100+'%'}
+function submit(){if(done)return;const un=MC.length+TF.length*4-Object.keys(A).length;if(un&&!confirm(`Còn ${un} ý chưa trả lời. Vẫn nộp bài?`))return;done=true;
+let mc=0,tp=0;const pts=[0,.1,.25,.5,1];
+MC.forEach((q,i)=>{document.querySelectorAll(`[data-k="m${i}"]`).forEach(b=>{b.disabled=true;const v=+b.dataset.v;if(v===q[2])b.classList.add('ok');else if(A['m'+i]===v)b.classList.add('no')});if(A['m'+i]===q[2])mc++});
+TF.forEach((q,i)=>{let c=0;q.s.forEach((s,j)=>{document.querySelectorAll(`[data-k="t${i}${j}"]`).forEach(b=>{b.disabled=true;const v=+b.dataset.v;if(v===s[1])b.classList.add('ok');else if(A[`t${i}${j}`]===v)b.classList.add('no')});if(A[`t${i}${j}`]===s[1])c++});tp+=pts[c]});
+const sc=(mc/MC.length*6+tp/TF.length*4).toFixed(2);
+const r=$('#res');r.classList.remove('hid');r.innerHTML=`<div class="mu">Điểm của bạn (thang 10)</div><div class="sc">${sc}</div><p>Trắc nghiệm: <b>${mc}/${MC.length}</b> câu đúng<br>Đúng – Sai: <b>${tp.toFixed(2)}/${TF.length}</b> điểm</p><div class="mu">Xanh = đáp án đúng · Đỏ = bạn chọn sai</div>`;r.scrollIntoView({behavior:'smooth'})}
+$('#sub').onclick=$('#sub2').onclick=submit;$('#rst').onclick=()=>{build();scrollTo(0,0)};
+</script></body></html>
